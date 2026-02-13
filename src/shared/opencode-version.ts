@@ -1,5 +1,3 @@
-import { execSync } from "child_process"
-
 /**
  * Minimum OpenCode version required for this plugin.
  * This plugin only supports OpenCode 1.1.1+ which uses the permission system.
@@ -37,26 +35,17 @@ export function compareVersions(a: string, b: string): -1 | 0 | 1 {
   return 0
 }
 
-
+/**
+ * Returns the cached OpenCode version.
+ * The version is populated from PluginInput.version during plugin initialization
+ * via setVersionCache(). Returns null if not yet initialized.
+ */
 export function getOpenCodeVersion(): string | null {
   if (cachedVersion !== NOT_CACHED) {
     return cachedVersion
   }
 
-  try {
-    const result = execSync("opencode --version", {
-      encoding: "utf-8",
-      timeout: 5000,
-      stdio: ["pipe", "pipe", "pipe"],
-    }).trim()
-
-    const versionMatch = result.match(/(\d+\.\d+\.\d+(?:-[\w.]+)?)/)
-    cachedVersion = versionMatch?.[1] ?? null
-    return cachedVersion
-  } catch {
-    cachedVersion = null
-    return null
-  }
+  return null
 }
 
 export function isOpenCodeVersionAtLeast(version: string): boolean {

@@ -10,7 +10,7 @@ import { createPluginInterface } from "./plugin-interface"
 import { loadPluginConfig } from "./plugin-config"
 import { createModelCacheState } from "./plugin-state"
 import { createFirstMessageVariantGate } from "./shared/first-message-variant"
-import { injectServerAuthIntoClient, log } from "./shared"
+import { injectServerAuthIntoClient, log, setVersionCache } from "./shared"
 import { startTmuxCheck } from "./tools"
 
 const OhMyOpenCodePlugin: Plugin = async (ctx) => {
@@ -18,6 +18,7 @@ const OhMyOpenCodePlugin: Plugin = async (ctx) => {
     directory: ctx.directory,
   })
 
+  setVersionCache(ctx.version)
   injectServerAuthIntoClient(ctx.client)
   startTmuxCheck()
 
